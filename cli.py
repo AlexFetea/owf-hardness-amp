@@ -1,6 +1,6 @@
 import time
-from core.weak_owf import weak_one_way_function
-from core.hardness_amp import direct_product_construction
+from src.weak_owf import weak_one_way_function
+from src.hardness_amp import direct_product_construction
 
 def invert_weak_owf(target_hash, original_input):
     for seed in range(256):
