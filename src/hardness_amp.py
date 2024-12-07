@@ -1,7 +1,6 @@
 from typing import List
 import networkx as nx
 import os
-import numpy as np
 
 def direct_product_construction(f, input_values: List[str]) -> str:
     return "".join(map(f, input_values))

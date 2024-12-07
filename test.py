@@ -1,12 +1,10 @@
-import time
-
 import numpy as np
 from src.weak_owf import weak_owf, random_permutation
-from src.hardness_amp import create_expander_graph, direct_product_construction, expander_construction, generate_random_inputs
+from src.hardness_amp import create_expander_graph, direct_product_construction, expander_construction, _generate_random_inputs
 
 n = 10
 q = 10
-inputs = generate_random_inputs(n, q)
+inputs = _generate_random_inputs(n, q)
 
 result = direct_product_construction(weak_owf, inputs)
 

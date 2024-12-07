@@ -1,7 +1,4 @@
-# core/weak_owf.py
 import hashlib
-import random
-
 import numpy as np
 
 def weak_owf(x):
