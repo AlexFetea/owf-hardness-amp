@@ -2,8 +2,10 @@
 import hashlib
 import random
 
-def weak_one_way_function(input_value: str, seed: int = None) -> str:
-    if seed is not None:
-        random.seed(seed)
-    salt = random.randint(0, 255)
-    return hashlib.sha256(f"{input_value}{salt}".encode()).hexdigest()
+import numpy as np
+
+def weak_owf(x):
+    return hashlib.sha256(x).digest().hex()
+
+def random_permutation(n: int):
+    return np.random.permutation(n)

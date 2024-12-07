@@ -1,8 +1,13 @@
+from typing import List
 import networkx as nx
+import os
+import numpy as np
 
-def direct_product_construction(weak_owf, input_value: str, num_iterations: int = 5) -> str:
-    results = [weak_owf(input_value, seed=i) for i in range(num_iterations)]
-    return "".join(results)
+def direct_product_construction(f, input_values: List[str]) -> str:
+    return "".join(map(f, input_values))
+
+def generate_random_inputs(n, q):
+    return [os.urandom(n) for _ in range(q)]
 
 def create_expander_graph(n, d):
     while True:
@@ -10,18 +15,14 @@ def create_expander_graph(n, d):
         if nx.is_connected(G):
             return G
 
-def random_walk_expander(G, start, steps):
+def random_walk_expander(G: nx.Graph, start: int, steps: List[int], pi: List[int]):
     current = start
-    walk = [current]
-    for _ in range(steps):
-        current = random.choice(list(G.neighbors(current)))
-        walk.append(current)
-    return walk
+    for step in steps:
+        current = pi[current]
+        current = list(G[current].keys())[step]
+    return current
 
-def weak_one_way_permutation(x):
-    return ''.join(sorted(x))
-
-def expander_construction(f, G, start, steps):
+def expander_construction(G: nx.Graph, start: int, steps: List[int], pi: List[int]):
     """Random Walk on Expander Graph Construction
     Args:
         f (function): Weak one-way permutation
@@ -31,6 +32,8 @@ def expander_construction(f, G, start, steps):
     Returns:
         tuple: Final node after the walk and the sequence of nodes
     """
-    walk = random_walk_expander(G, start, steps)
-    final_node = walk[-1]
-    return (f(final_node), walk)
+    g_x = random_walk_expander(G, start, steps, pi)
+    output = format(g_x, 'x')
+    for step in steps:
+        output += format(step, 'x')
+    return output
